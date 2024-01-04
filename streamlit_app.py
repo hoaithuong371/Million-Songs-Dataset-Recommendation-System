@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import zipfile
+from stqdm import stqdm
+from time import sleep
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 
@@ -32,6 +34,9 @@ st.set_page_config(
     page_title="Music Recommendation System",
     page_icon="🎶"
 )
+
+import streamlit as st
+import time
 
 def load_data(path_1, path_2):
 
@@ -222,6 +227,8 @@ def main():
 
 
     if choice == "Popularity - based recommendation system":
+        for _ in stqdm(range(50), desc="This is a slow task", mininterval=1):
+            sleep(0.05)
 
         st.subheader("TOP 10 MOST POPULARITY SONGS:")
         
@@ -233,6 +240,8 @@ def main():
             st.write(i," ",song)
 
     elif choice == "User-User similarity-based collaborative filtering":
+        for _ in stqdm(range(50), desc="This is a slow task", mininterval=1):
+            sleep(0.05)
 
         sim_options = {'name': 'pearson_baseline',
                'user_based': True}
@@ -256,6 +265,8 @@ def main():
                 st.write(i, " ", title)
     
     elif choice == "Item-Item similarity-based collaborative filtering":
+        for _ in stqdm(range(50), desc="This is a slow task", mininterval=1):
+            sleep(0.05)
         
         sim_options = {'name': 'pearson_baseline',
                     'user_based': False}
@@ -277,6 +288,8 @@ def main():
                 st.write(i, " ", title)
 
     elif choice == "Model based collaborative filtering / Matrix factorization":
+        for _ in stqdm(range(50), desc="This is a slow task", mininterval=1):
+            sleep(0.05)
         
         svd = SVD(n_epochs = 30, lr_all = 0.01, reg_all = 0.2, random_state = 1)
         svd.fit(trainset)
@@ -296,6 +309,8 @@ def main():
                 st.write(i, " ", title)
     
     elif choice == "Clustering -  based recommendation system":
+        for _ in stqdm(range(50), desc="This is a slow task", mininterval=1):
+            sleep(0.05)
 
         clust = CoClustering(n_cltr_u = 5,n_cltr_i = 5, n_epochs = 10, random_state = 1)
         clust.fit(trainset)
@@ -316,6 +331,8 @@ def main():
                 st.write(i, " ", title)
 
     elif choice == "Content based recommendation system":
+        for _ in stqdm(range(50), desc="This is a slow task", mininterval=1):
+            sleep(0.05)
         
         clust = CoClustering(n_cltr_u = 5,n_cltr_i = 5, n_epochs = 10, random_state = 1)
         clust.fit(trainset)
