@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import zipfile
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 
@@ -33,7 +34,23 @@ st.set_page_config(
 )
 
 def load_data():
-    count_df = pd.read_csv('count_data.csv')
+
+    # Mở file zip
+    with zipfile.ZipFile("count_data.zip", 'r') as zip_file:
+        # Lấy tất cả các file trong zip
+        file_list = zip_file.namelist()
+
+        # Đọc DataFrame từ mỗi file CSV trong zip
+        dfs = []
+        for file_name in file_list:
+            with zip_file.open(file_name) as file_in_zip:
+                df = pd.read_csv(file_in_zip, encoding='latin1')
+                dfs.append(df)
+
+    # Kết hợp các DataFrame nếu cần thiết
+    count_df = pd.concat(dfs, axis=0, ignore_index=True)
+    count_df = count_df.drop(columns=['Unnamed: 0'])
+
     song_df = pd.read_csv('song_data.csv')
     count_with_song = pd.merge(count_df,song_df.drop_duplicates(['song_id']),on='song_id', how='left')
 
