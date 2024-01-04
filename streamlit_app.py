@@ -33,10 +33,10 @@ st.set_page_config(
     page_icon="🎶"
 )
 
-def load_data():
+def load_data(path_1, path_2):
 
     # Mở file zip
-    with zipfile.ZipFile("count_data.zip", 'r') as zip_file:
+    with zipfile.ZipFile(path_1, 'r') as zip_file:
         # Lấy tất cả các file trong zip
         file_list = zip_file.namelist()
 
@@ -49,9 +49,12 @@ def load_data():
 
     # Kết hợp các DataFrame nếu cần thiết
     count_df = pd.concat(dfs, axis=0, ignore_index=True)
-    count_df = count_df.drop(columns=['Unnamed: 0'])
+    if 'Unnamed: 0' in count_df.columns:
+        count_df = count_df.drop(columns=['Unnamed: 0'])
+    else:
+        count_df = count_df.drop(columns=['Unnamed: 0'], errors='ignore')
 
-    song_df = pd.read_csv('song_data.csv')
+    song_df = pd.read_csv(path_2)
     count_with_song = pd.merge(count_df,song_df.drop_duplicates(['song_id']),on='song_id', how='left')
 
     le = LabelEncoder()
@@ -178,6 +181,7 @@ def recommendations_content( df_final, title):
     return recommended_songs
 
 def main():
+
     st.title("Music Recommendation system")
 
     st.sidebar.success("Select a page under!")
@@ -186,7 +190,7 @@ def main():
             "Model based collaborative filtering / Matrix factorization", "Clustering -  based recommendation system", "Content based recommendation system"]
     choice = st.sidebar.selectbox("Recommend by: ",menu)
 
-    df_final, song_df = load_data()
+    df_final, song_df = load_data('count_data.zip', 'song_data.csv')
 
     unique_users_df = df_final.drop_duplicates(subset='user_id')
     unique_titles_df = df_final.drop_duplicates(subset='title')
