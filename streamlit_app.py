@@ -181,6 +181,16 @@ def recommendations_content( df_final, title):
     return recommended_songs
 
 def main():
+    st.markdown(
+        """
+        <style>
+            h1 {
+                color: #82cdff;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.title("Music Recommendation system")
 
