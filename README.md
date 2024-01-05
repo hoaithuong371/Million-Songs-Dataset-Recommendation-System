@@ -8,7 +8,7 @@
 
 **Giảng viên môn học:** Huỳnh Thanh Sơn
 
-#### Web app by streamlit.io: https://million-songs-dataset-recommendation-system-resys.streamlit.app/
+#### Web app by streamlit.io: https://million-songs-dataset-recommendation-system-final.streamlit.app/
 
 ## **Why this is important?**
 
